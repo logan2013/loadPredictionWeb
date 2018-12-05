@@ -1,0 +1,19 @@
+<page-header></page-header>
+<div nz-row nzGutter="24">
+    <div nz-col nzMd="24" nzLg="24">
+        <nz-card nzTitle="字典列表">
+            <div nz-row nzGutter="24" style="margin-bottom: 8px;">
+                <div nz-col nzMd="15" nzLg="15">
+                    <button nz-button [acl]="'dict-add'" (click)="addDict($event)" [nzType]="'primary'">
+                        <i nz-icon type="plus"></i>
+                        <span>添加</span>
+                    </button>
+                </div>
+                <div nz-col nzMd="9" nzLg="9" class="text-right">
+                    <sf #sf mode="search" [schema]="searchSchema" (formSubmit)="searchDict($event)" (formReset)="resetDict($event)"></sf>
+                </div>
+            </div>
+            <st #dictSt [page]="pageSet" [total]="total" [bordered]="true" size="middle" [data]="dictData" [columns]="columnsDict" (change)="pageIndexChange($event)"></st>
+        </nz-card>
+    </div>
+</div>

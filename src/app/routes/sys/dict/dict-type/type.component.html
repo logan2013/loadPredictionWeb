@@ -1,0 +1,5 @@
+<button nz-button (click)="addDictType()" [nzType]="'primary'" style="margin-bottom: 8px;">
+  <i nz-icon type="plus"></i>
+  <span>添加</span>
+</button>
+<st #dictTypeSt [bordered]="true" size="middle" [data]="dict.children" [columns]="columnsDictType"></st>

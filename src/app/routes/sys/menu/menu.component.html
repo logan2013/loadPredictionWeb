@@ -1,0 +1,59 @@
+<page-header></page-header>
+<nz-card>
+  <div nz-row nzGutter="24" style="margin-bottom: 8px;">
+    <div nz-col nzMd="12" nzLg="12">
+      <button nz-button [acl]="'menu-add'" (click)="openEdit($event)" [nzType]="'primary'" style="margin-bottom: 8px;">
+          <i nz-icon type="plus"></i>
+          <span>添加</span>
+      </button>
+    </div>
+    <div nz-col nzMd="12" nzLg="12" class="text-right">
+      <sf #menuSf mode="search" [schema]="searchSchema" (formSubmit)="searchMenu($event)" (formReset)="resetMenu($event)"></sf>
+    </div>
+  </div>
+  <nz-table #menuTable nzBordered [nzData]="menuData" nzSize="middle" [nzPageIndex]="pi" [nzPageSize]="ps"  [nzTotal]="total" [nzShowTotal]="totalTemplate" (nzPageIndexChange)="pageIndexChange($event)" [nzFrontPagination]=false >
+    <thead>
+      <tr>
+        <th class="listStyle">菜单名称</th>
+        <th class="listStyle">图标及样式</th>
+        <th class="listStyle">访问地址</th>
+        <th class="listStyle">菜单顺序</th>
+        <th class="listStyle">创建时间</th>
+        <th class="listStyle">最近修改人</th>
+        <th class="listStyle">最近修改时间</th>
+        <th class="listStyle" nzWidth="15%">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template #totalTemplate let-total>
+        共 {{total}} 条
+      </ng-template>
+      <ng-template ngFor let-data [ngForOf]="menuTable.data">
+        <ng-template ngFor let-item [ngForOf]="expandDataCache[data.id]">
+          <tr *ngIf="(item.parent&&item.parent.expand)||!(item.parent)">
+            <td [nzIndentSize]="item.level*20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand" (nzExpandChange)="collapse(expandDataCache[data.id],item,$event)">
+              {{item.text}}
+            </td>
+            <td class="listStyle">
+              <i nz-icon [type]="item.icon.value" theme="outline"></i>&nbsp;-&nbsp;{{item.icon.value}}
+            </td>
+            <td class="listStyle">{{item.link}}</td>
+            <td class="listStyle">{{item.sort}}</td>
+            <td class="listStyle">{{item.createDate | date:'yyyy年MM月dd日 HH:mm:ss'}}</td>
+            <td class="listStyle">{{item.updateName}}</td>
+            <td class="listStyle">{{item.updateDate | date:'yyyy年MM月dd日 HH:mm:ss'}}</td>
+            <td class="listStyle">
+              <a [acl]="'menu-edit'" (click)="openView(item)"><i nz-icon type="edit" theme="outline"></i>查看<nz-divider nzType="vertical"></nz-divider></a>
+              <!-- <nz-divider nzType="vertical"></nz-divider> -->
+              <a [acl]="'menu-del'" (click)="openEdit(item)"><i nz-icon type="edit" theme="outline"></i>编辑<nz-divider nzType="vertical"></nz-divider></a>
+              <!-- <nz-divider nzType="vertical"></nz-divider> -->
+              <nz-popconfirm (nzOnConfirm)="deleteMenu(item)" [nzTitle]="'确认删除此菜单及其子菜单吗？'">
+                <a nz-popconfirm style="color: #f04134;"><i nz-icon type="delete" theme="outline"></i>删除</a>
+              </nz-popconfirm>
+            </td>
+          </tr>
+        </ng-template>
+      </ng-template>
+    </tbody>
+  </nz-table>
+</nz-card>

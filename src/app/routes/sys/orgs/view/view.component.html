@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <div class="modal-title">查看 {{ title }} 信息</div>
+</div>
+<!-- <nz-spin *ngIf="!i" class="modal-spin"></nz-spin> -->
+<div sv-container *ngIf="orgParam" col="3" style="padding-bottom: 38px;">
+  <sv label="上级机构">{{ orgParam.org.parentName }}</sv>
+  <sv label="组织机构名称">{{ orgParam.org.title }}</sv>
+  <sv label="机构类型">{{ orgParam.org.dictOrgType.label }}</sv>
+</div>
+<div sv-container *ngIf="orgParam" col="2" style="padding-bottom: 38px;">
+  <sv label="电话号码">{{ orgParam.org.telephone }}</sv>
+  <sv label="传真">{{ orgParam.org.fax }}</sv>
+</div>
+<div sv-container *ngIf="orgParam" col="2" style="padding-bottom: 38px;">
+  <sv label="经度">{{ orgParam.org.longitude }}</sv>
+  <sv label="纬度">{{ orgParam.org.latitude }}</sv>
+</div>
+<div sv-container *ngIf="orgParam" col="2" style="padding-bottom: 38px;">
+  <sv label="机构编码">{{ orgParam.org.code }}</sv>
+  <sv label="地址">{{ orgParam.org.address }}</sv>
+</div>
+<div sv-container *ngIf="orgParam" col="1" style="padding-bottom: 38px;">
+  <sv label="机构描述">{{ orgParam.org.description }}</sv>
+</div>
+<div class="modal-footer">
+  <button nz-button type="button" (click)="close()">关闭</button>
+</div>
+  

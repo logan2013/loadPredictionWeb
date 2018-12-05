@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <div class="modal-title">{{ title }}</div>
+</div>
+<!-- <nz-spin *ngIf="!spin" class="modal-spin"></nz-spin> -->
+<sf #sf mode="edit" [schema]="schema" [formData]="orgParam.org" button="none">
+  <ng-template sf-template="pid" let-me let-ui="ui" let-schema="schema">
+    <nz-tree-select
+      [nzNodes]="orgParam.orgTree"
+      nzShowSearch
+      [(ngModel)]="pid"
+      (ngModelChange)="onPidChange($event)">
+    </nz-tree-select>
+    <a [hidden]="pidValid" style="color: rgb(245, 34, 45);">{{pidTip}}</a>
+  </ng-template>
+<div class="modal-footer">
+  <button nz-button type="button" (click)="close()">关闭</button>
+  <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="isLoading" (click)="save(sf.value)" [disabled]="!(sf.valid && pidValid)">保存</button>
+</div>

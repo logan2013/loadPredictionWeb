@@ -1,0 +1,19 @@
+<div class="modal-header">
+  <div class="modal-title">查看 {{ title }} 信息</div>
+</div>
+<div sv-container *ngIf="dictParam" col="2" style="padding-bottom: 38px;">
+  <sv label="所属字典名称">{{ dictParam.dict.name }}</sv>
+  <sv label="所属字典类型">{{ dictParam.dict.type }}</sv>
+</div>
+<div sv-container *ngIf="dictParam" col="2" style="padding-bottom: 38px;">
+  <sv label="类型名称">{{ dictParam.dictType.label }}</sv>
+  <sv label="类型编码">{{ dictParam.dictType.value }}</sv>
+</div>
+<div sv-container *ngIf="dictParam" col="2" style="padding-bottom: 38px;">
+  <sv label="修改人">{{ dictParam.dictType.updateName }}</sv>
+  <sv label="修改时间">{{ dictParam.dictType.updateDate | date:'yyyy年MM月dd日 HH:mm:ss'}}</sv>
+</div>
+<div class="modal-footer">
+  <button nz-button type="button" (click)="close()">关闭</button>
+</div>
+      

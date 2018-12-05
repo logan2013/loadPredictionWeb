@@ -1,0 +1,75 @@
+<page-header></page-header>
+<div nz-row nzGutter="24">
+  <div nz-col nzMd="24" nzLg="5">
+    <nz-card nzTitle="我的组织机构">
+      <nz-input-group [nzSuffix]="suffixIcon">
+        <input type="text" nz-input placeholder="Search" [(ngModel)]="treeName">
+      </nz-input-group>
+      <ng-template #suffixIcon>
+        <i nz-icon type="search"></i>
+      </ng-template>
+      <nz-tree #treeCom
+        [nzData]="orgTree"
+        [nzSearchValue]="treeName"
+        nzShowIcon="true"
+        (nzClick)="clickTreeName($event)">
+      </nz-tree>
+    </nz-card>
+  </div>
+  <div nz-col nzMd="24" nzLg="19">
+    <nz-card nzTitle="组织机构列表">
+      <div nz-row nzGutter="24" style="margin-bottom: 8px;">
+        <div nz-col nzMd="12" nzLg="12">
+          <button nz-button (click)="openEdit($event)" [nzType]="'primary'" style="margin-bottom: 8px;">
+              <i nz-icon type="plus"></i>
+              <span>添加</span>
+          </button>
+        </div>
+        <div nz-col nzMd="12" nzLg="12" class="text-right">
+          <sf #orgSf mode="search" [schema]="searchSchema" (formSubmit)="searchOrg($event)" (formReset)="resetOrg($event)"></sf>
+        </div>
+      </div>
+      <nz-table #orgTable nzBordered [nzData]="orgData" nzSize="middle" [nzPageIndex]="pi" [nzPageSize]="ps"  [nzTotal]="total" [nzShowTotal]="totalTemplate" (nzPageIndexChange)="pageIndexChange($event)" [nzFrontPagination]=false >
+        <thead>
+          <tr>
+            <th class="listStyle">组织机构名称</th>
+            <th class="listStyle">机构编码</th>
+            <th class="listStyle">机构类型</th>
+            <th class="listStyle">电话</th>
+            <th class="listStyle">地址</th>
+            <th class="listStyle" nzWidth="20%">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+            <ng-template #totalTemplate let-total>
+              共 {{total}} 条
+            </ng-template>
+            <ng-template ngFor let-data [ngForOf]="orgTable.data">
+            <ng-template ngFor let-item [ngForOf]="expandDataCache[data.id]">
+              <tr *ngIf="(item.parent&&item.parent.expand)||!(item.parent)">
+                <td [nzIndentSize]="item.level*20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand" (nzExpandChange)="collapse(expandDataCache[data.id],item,$event)">
+                  {{item.title}}
+                </td>
+                <td class="listStyle">
+                  {{item.code}}
+                </td>
+                <td class="listStyle">{{item.dictOrgType.label}}</td>
+                <td class="listStyle">{{item.telephone}}</td>
+                <td class="listStyle">{{item.address}}</td>
+                <td class="listStyle">
+                  <a (click)="openView(item)"><i nz-icon type="edit" theme="outline"></i>查看</a>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <a (click)="openEdit(item)"><i nz-icon type="edit" theme="outline"></i>编辑</a>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <nz-popconfirm (nzOnConfirm)="deleteOrg(item)" [nzTitle]="'确认要删除此组织及其子组织吗？'">
+                    <a nz-popconfirm style="color: #cf1322;"><i nz-icon type="delete" theme="outline"></i>删除</a>
+                  </nz-popconfirm>
+                </td>
+              </tr>
+            </ng-template>
+          </ng-template>
+        </tbody>
+      </nz-table> 
+    </nz-card>  
+  </div>
+</div>

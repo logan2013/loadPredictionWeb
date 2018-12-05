@@ -1,0 +1,83 @@
+<page-header></page-header>
+<div nz-row nzGutter="24">
+  <div nz-col nzMd="24" nzLg="7">
+    <nz-card nzTitle="权限列表" [nzExtra]="extraTemplate">
+      <nz-tree #aclTreeCom
+        [nzData]="aclTree"
+        nzMultiple="true"
+        (nzClick)="aclView($event)">
+        <ng-template #contextTemplate>
+          <ul nz-menu nzInDropDown>
+            <li class="disabled" nz-menu-item>修改</li>
+            <li class="disabled" nz-menu-item>删除</li>
+            <li nz-menu-item (click)="aclEidt()">添加子项</li>
+          </ul>
+        </ng-template>
+        <ng-template #btnTemplate>
+          <ul nz-menu nzInDropDown>
+            <li nz-menu-item (click)="aclEidt(node)">修改</li>
+            <nz-popconfirm (nzOnConfirm)="aclDel($event,node)" [nzTitle]="'确认删除此【权限按钮】吗？'">
+              <a nz-popconfirm><li nz-menu-item>删除</li></a>
+            </nz-popconfirm>
+            <li class="disabled" nz-menu-item>添加子项</li>
+          </ul>
+        </ng-template>
+        <ng-template #nzTreeTemplate let-node>
+          <span class="custom-node" [class.active]="activedNode?.key===node.key">
+            <span class="node-content" *ngIf="!node.origin.isLeaf && !node.origin.isBtn">
+              <span>{{node.title}}</span>
+            </span>
+            <span class="node-content" *ngIf="(node.origin.isLeaf && !node.origin.isBtn) || (!node.origin.isLeaf && node.origin.isBtn)"  (contextmenu)="contextMenu(node,$event,contextTemplate)">
+              <span>{{node.title}}</span>
+            </span>
+            <span class="node-content" *ngIf="node.origin.isLeaf && node.origin.isBtn"  (contextmenu)="contextMenu(node,$event,btnTemplate)">
+              <span>{{node.title}}</span>
+            </span>
+          </span>
+        </ng-template>
+      </nz-tree>
+    </nz-card>
+  </div>
+  <div nz-col nzMd="24" nzLg="17" [hidden]="!isShowView">
+    <nz-card [nzTitle]="title">
+        <div sv-container *ngIf="activedNode" col="2" style="padding-bottom: 38px;">
+          <sv label="所属权限名称">{{ activedNode.parentNode?.title }}</sv>
+          <sv label="权限名称">{{ activedNode.title }}</sv>
+        </div>
+        <div sv-container *ngIf="activedNode" col="2" style="padding-bottom: 38px;">
+          <sv label="acl控制">{{ activedNode.origin.acl }}</sv>
+          <sv label="描述">{{ activedNode.origin.description }}</sv>
+        </div>
+    </nz-card>
+  </div>
+  <div nz-col nzMd="24" nzLg="17" [hidden]="!isShowEdit">
+    <nz-card [nzTitle]="title">
+        <div nz-row nzGutter="24" style="margin-bottom: 8px;">
+            <form nz-form [formGroup]="validateForm" (ngSubmit)="save($event,validateForm.value)" nzLayout="horizontal">
+              <nz-form-item>
+                <nz-form-label [nzSm]="4" [nzXs]="12" nzRequired nzFor="name">权限按钮名称</nz-form-label>
+                <nz-form-control [nzSm]="8" [nzXs]="12">
+                  <input nz-input formControlName="name" id="name">
+                </nz-form-control>
+                <nz-form-label [nzSm]="4" [nzXs]="12" nzRequired nzFor="acl">acl控制</nz-form-label>
+                <nz-form-control [nzSm]="8" [nzXs]="12">
+                  <input nz-input formControlName="acl" id="acl">
+                </nz-form-control>
+              </nz-form-item>
+              <nz-form-item>
+                <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="description">权限描述</nz-form-label>
+                <nz-form-control [nzSm]="20" [nzXs]="24">
+                  <textarea formControlName="description" nz-input></textarea>
+                </nz-form-control>
+              </nz-form-item>
+              <nz-form-item nz-row style="margin-bottom:8px;">
+                <nz-form-control [nzOffset]="11" [nzSpan]="24">
+                  <button nz-button nzType="primary" [disabled]="!validateForm.valid" [nzLoading]="isLoading">提交</button>
+                  <button nz-button (click)="reset($event)">重置</button>
+                </nz-form-control>
+              </nz-form-item>
+            </form>
+          </div>
+    </nz-card>
+  </div>
+</div>
