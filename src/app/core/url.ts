@@ -10,4 +10,7 @@ export const Urls={
     getUsers:host+'/users?type=2', //获取用户
 
 
+    menu:host+'menus',
+
+
 }
