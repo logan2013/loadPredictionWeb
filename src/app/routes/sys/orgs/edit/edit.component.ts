@@ -3,6 +3,7 @@ import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
 import { LoggerService } from 'app/service/logger';
 import { SFComponent, SFSchema } from '@delon/form';
+import { Urls } from '@core/url';
 
 @Component({
   selector: 'app-sys-orgs-edit',
@@ -11,7 +12,7 @@ import { SFComponent, SFSchema } from '@delon/form';
 export class SysOrgsEditComponent implements OnInit {
   // 访问接口
   apiUrl: any = {
-    orgs: '/orgs' // 增加、修改组织机构接口
+    orgs: Urls.orgs // 增加、修改组织机构接口
   };
   @Input()
   orgParam: any = {}; // 接收组织机构父组件传过来的组织参数

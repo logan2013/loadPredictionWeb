@@ -7,6 +7,7 @@ import { LoggerService } from 'app/service/logger';
 import { SysOrgsEditComponent } from './edit/edit.component';
 import { NzMessageService } from 'ng-zorro-antd';
 import { SysOrgsViewComponent } from './view/view.component';
+import { Urls } from '@core/url';
 
 export interface OrgParam {
   org?: any;
@@ -21,11 +22,11 @@ export interface OrgParam {
 export class SysOrgsComponent implements OnInit {
   // 访问接口
   apiUrl: any = {
-    orgList: '/orgList', // 获取组织机构列表接口
-    orgTree: '/orgTree', // 获取组织机构树结构接口
-    orgDel: '/orgs/', // 删除组织机构接口
-    orgDictList: '/dictOrg', // 获取组织机构类型字典接口
-    orgSearch: '/orgSearch/' // 搜索组织机构接口
+    orgList: Urls.orgList, // 获取组织机构列表接口
+    orgTree: Urls.orgTree, // 获取组织机构树结构接口
+    orgDel: Urls.orgDel, // 删除组织机构接口
+    orgDictList: Urls.orgDictList, // 获取组织机构类型字典接口
+    orgSearch: Urls.orgSearch // 搜索组织机构接口
   };
 
   // 分页配置

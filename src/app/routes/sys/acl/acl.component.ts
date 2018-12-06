@@ -4,6 +4,7 @@ import { NzTreeNode, NzDropdownContextComponent, NzDropdownService,
   NzFormatEmitEvent, NzTreeComponent, NzMessageService } from 'ng-zorro-antd';
 import { LoggerService } from 'app/service/logger';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Urls } from '@core/url';
 
 @Component({
   selector: 'app-sys-acl',
@@ -13,9 +14,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class SysAclComponent implements OnInit {
   // 访问接口
   apiUrl: any = {
-    aclTree: '/aclTree', // 获取权限树结构接口
-    buttons: '/buttons', // 增加、修改权限按钮的接口
-    btnDel: '/buttons/', // 删除权限按钮的接口
+    aclTree: Urls.aclTree, // 获取权限树结构接口
+    buttons: Urls.buttons, // 增加、修改权限按钮的接口
+    btnDel: Urls.btnDel, // 删除权限按钮的接口
   };
 
   // 数据接收
@@ -51,28 +52,25 @@ export class SysAclComponent implements OnInit {
     // 获取权限树
     this.http.get(this.apiUrl.aclTree).subscribe((res: any) => {
       this.aclTree = res;
-      this.log.log(this.aclTree, '获取的权限树结构', 'red');
     });
   }
 
   // 查看权限信息
   aclView(data: NzFormatEmitEvent): void {
-    this.log.log(data, '查看权限信息', 'red');
     this.activedNode = data.node;
     this.isShowView = true;
     this.isShowEdit = !this.isShowView;
     this.title = '查看 ' + this.activedNode.title + ' 信息';
-    this.log.log(this.activedNode, 'activedNode', 'red');
   }
 
   // 添加子项（增加下级权限按钮或修改权限按钮）
-  aclEidt(node: any) {
+  aclEdit(node: any) {
     this.isShowEdit = true;
     this.isShowView = !this.isShowEdit;
     if (node) {
         this.title = '编辑 ' + node.origin.title + ' 按钮权限';
         this.validateForm.setValue({
-          id: node.origin.key,
+          id: node.origin.id,
           name : node.origin.title,
           acl: node.origin.acl,
           description: node.origin.description
@@ -86,8 +84,7 @@ export class SysAclComponent implements OnInit {
   // 删除权限按钮
   aclDel(event: any, node: any) {
     this.dropdown.close();
-    this.log.log(node, '删除参数', 'green');
-    this.http.delete(this.apiUrl.btnDel + `${node.key}`)
+    this.http.delete(this.apiUrl.btnDel + `${node.origin.id}`)
     .subscribe((res: any) => {
       this.onSuccess(res, '删除成功', event);
     }, (error) => {
@@ -96,15 +93,13 @@ export class SysAclComponent implements OnInit {
   }
 
   contextMenu(node: any, $event: MouseEvent, template: TemplateRef<void>): void {
-      this.node = node;
-      this.dropdown = this.nzDropdownService.create($event, template);
-  }
+    this.node = node;
+    this.dropdown = this.nzDropdownService.create($event, template);
+}
 
   // 保存新增权限按钮或编辑权限按钮
   save(event: any, value: any) {
-    this.log.log(this.node, 'node', 'red');
     this.isLoading = true;
-    this.log.log(value, '编辑、保存的信息', 'green');
     if (value.id) {
       value.menuPid = this.node.origin.pid;
       this.http.put(this.apiUrl.buttons, value)

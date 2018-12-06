@@ -6,6 +6,7 @@ import { LoggerService } from 'app/service/logger';
 import { PageParam } from 'app/model/pageParam';
 import { SFSchema } from '@delon/form';
 import { SysOrgViewComponent } from './view/view.component';
+import { Urls } from '@core/url';
 
 export interface TreeNodeInterface {
   id: number;
@@ -38,11 +39,11 @@ export interface OrgParam {
 export class SysOrgComponent implements OnInit {
   // 访问接口
   apiUrl: any = {
-    orgTreeNode: '/orgTreeNode', // 获取组织机构列表树形数据接口
-    orgTree: '/orgTree', // 获取组织机构树结构接口
-    orgDel: '/orgs/', // 删除组织机构接口
-    orgDictList: '/dictOrg', // 获取组织机构类型字典接口
-    orgSearch: '/orgSearch/' // 搜索组织机构接口
+    orgTreeNode: Urls.orgTreeNode, // 获取组织机构列表树形数据接口
+    orgTree: Urls.orgTree, // 获取组织机构树结构接口
+    orgDel: Urls.orgDel, // 删除组织机构接口
+    orgDictList: Urls.orgDictList, // 获取组织机构类型字典接口
+    orgSearch: Urls.orgSearch // 搜索组织机构接口
   };
 
   // 分页配置

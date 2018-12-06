@@ -10,6 +10,7 @@ import { ACLService } from '@delon/acl';
 import { NzIconService } from 'ng-zorro-antd';
 import { ICONS_AUTO } from '../../../style-icons-auto';
 import { ICONS } from '../../../style-icons';
+import { Urls } from '@core/url';
 
 /**
  * 用于应用启动时
@@ -32,7 +33,7 @@ export class StartupService {
 
   private viaHttp(resolve: any, reject: any) {
     zip(
-      this.httpClient.get('/info')
+      this.httpClient.get(Urls.info)
     ).pipe(
       // 接收其他拦截器后产生的异常消息
       catchError(([appData]) => {

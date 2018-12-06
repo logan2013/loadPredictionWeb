@@ -7,6 +7,7 @@ import { SysDictTypeComponent } from './dict-type/type.component';
 import { NzMessageService, NzDrawerOptions } from 'ng-zorro-antd';
 import { PageParam } from 'app/model/pageParam';
 import { LoggerService } from 'app/service/logger';
+import { Urls } from '@core/url';
 
 @Component({
   selector: 'app-sys-dict',
@@ -17,9 +18,9 @@ import { LoggerService } from 'app/service/logger';
 export class SysDictComponent implements OnInit {
   // 访问接口
   apiUrl: any = {
-    dictList: '/dictList', // 获取字典列表接口
-    dictDel: '/dicts/', // 删除字典接口
-    dictSearch: '/dictSearch/' // 搜索字典接口
+    dictList: Urls.dictList, // 获取字典列表接口
+    dictDel: Urls.dictDel, // 删除字典接口
+    dictSearch: Urls.dictSearch // 搜索字典接口
   };
 
   // 分页配置
@@ -149,6 +150,7 @@ export class SysDictComponent implements OnInit {
   pageIndexChange(stChange: STChange) {
     const pageParam: PageParam = { page: stChange.pi - 1, size: stChange.ps };
     this.http.get(this.apiUrl.dictList, pageParam).subscribe((res: any) => {
+      this.log.log(res, '页码改变时返回结果', 'blue');
       this.dictData = res.list;
       this.total = res.total;
     });

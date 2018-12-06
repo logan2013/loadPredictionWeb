@@ -5,6 +5,8 @@ import { SysMenuEditComponent } from './edit/edit.component';
 import { PageParam } from 'app/model/pageParam';
 import { SFSchema } from '@delon/form';
 import { SysMenuViewComponent } from './view/view.component';
+import { url } from 'inspector';
+import { Urls } from '@core/url';
 
 export interface TreeNodeInterface {
   id: number;
@@ -30,10 +32,10 @@ export interface MenuParam {
 export class SysMenuComponent implements OnInit {
   // 访问接口
   apiUrl: any = {
-    menuTreeNode: '/menuTreeNode', // 获取菜单列表树形数据接口
-    menuTree: '/menuTree', // 获取菜单树结构接口
-    menuDel: '/menus/', // 删除菜单接口
-    menuSearch: '/menuSearch/' // 搜索菜单接口
+    menuTreeNode: Urls.menuTreeNode, // 获取菜单列表树形数据接口
+    menuTree: Urls.menuTree, // 获取菜单树结构接口
+    menuDel: Urls.menuDel, // 删除菜单接口
+    menuSearch: Urls.menuSearch // 搜索菜单接口
   };
 
   // 分页配置

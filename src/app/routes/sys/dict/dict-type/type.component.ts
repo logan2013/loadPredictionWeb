@@ -4,6 +4,7 @@ import { _HttpClient, ModalHelper } from '@delon/theme';
 import { STComponent, STColumn } from '@delon/abc';
 import { SysDictTypeEditComponent } from './edit/edit.component';
 import { SysDictTypeViewComponent } from './view/view.component';
+import { Urls } from '@core/url';
 
 export interface DictParam {
   dict?: any;
@@ -17,7 +18,7 @@ export interface DictParam {
 export class SysDictTypeComponent implements OnInit {
   // 访问接口
   apiUrl: any = {
-    dictTypeDel: '/dict-types/' // 删除字典接口
+    dictTypeDel: Urls.dictTypeDel // 删除字典接口
   };
   @Input()
   dict: any = {}; // 接收字典父组件传过来的字典参数

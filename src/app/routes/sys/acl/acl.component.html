@@ -4,18 +4,17 @@
     <nz-card nzTitle="权限列表" [nzExtra]="extraTemplate">
       <nz-tree #aclTreeCom
         [nzData]="aclTree"
-        nzMultiple="true"
         (nzClick)="aclView($event)">
         <ng-template #contextTemplate>
           <ul nz-menu nzInDropDown>
             <li class="disabled" nz-menu-item>修改</li>
             <li class="disabled" nz-menu-item>删除</li>
-            <li nz-menu-item (click)="aclEidt()">添加子项</li>
+            <li nz-menu-item (click)="aclEdit()">添加子项</li>
           </ul>
         </ng-template>
         <ng-template #btnTemplate>
           <ul nz-menu nzInDropDown>
-            <li nz-menu-item (click)="aclEidt(node)">修改</li>
+            <li nz-menu-item (click)="aclEdit(node)">修改</li>
             <nz-popconfirm (nzOnConfirm)="aclDel($event,node)" [nzTitle]="'确认删除此【权限按钮】吗？'">
               <a nz-popconfirm><li nz-menu-item>删除</li></a>
             </nz-popconfirm>

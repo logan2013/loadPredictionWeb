@@ -13,7 +13,7 @@
                     <sf #sf mode="search" [schema]="searchSchema" (formSubmit)="searchDict($event)" (formReset)="resetDict($event)"></sf>
                 </div>
             </div>
-            <st #dictSt [page]="pageSet" [total]="total" [bordered]="true" size="middle" [data]="dictData" [columns]="columnsDict" (change)="pageIndexChange($event)"></st>
+            <st #dictSt [page]="pageSet" [total]="total" [bordered]="true" size="middle" [data]="dictData" [columns]="columnsDict"  (change)="pageIndexChange($event)"></st>
         </nz-card>
     </div>
 </div>

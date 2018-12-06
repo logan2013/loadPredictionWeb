@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient, MenuService } from '@delon/theme';
 import { SFComponent, SFSchema, FormProperty, PropertyGroup } from '@delon/form';
+import { Urls } from '@core/url';
 
 @Component({
   selector: 'app-sys-menu-edit',
@@ -10,7 +11,7 @@ import { SFComponent, SFSchema, FormProperty, PropertyGroup } from '@delon/form'
 export class SysMenuEditComponent implements OnInit {
   // 访问接口
   apiUrl: any = {
-    menus: '/menus' // 增加、修改菜单接口
+    menus: Urls.menus // 增加、修改菜单接口
   };
   @Input()
   menuParam: any; // 接收菜单父组件传过来的参数

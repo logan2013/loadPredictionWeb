@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
 import { SFComponent, SFSchema } from '@delon/form';
+import { Urls } from '@core/url';
 
 @Component({
   selector: 'app-sys-dict-type-edit',
@@ -10,7 +11,7 @@ import { SFComponent, SFSchema } from '@delon/form';
 export class SysDictTypeEditComponent implements OnInit {
   // 访问接口
   apiUrl: any = {
-    dictTypes: '/dict-types' // 增加、修改字典信息的接口
+    dictTypes: Urls.dictTypes // 增加、修改字典信息的接口
   };
   @Input()
   dictType: any = {}; // 接收字典类型父组件传过来的字典类型参数

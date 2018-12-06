@@ -4,24 +4,41 @@
     <nz-card nzTitle="角色列表" [nzExtra]="extraTemplate">
       <nz-tree #roleTreeCom
         [nzData]="roleTree"
-        nzMultiple="true"
-        (nzClick)="clickTreeName($event)">
+        (nzClick)="roleEdit($event)">
+        <ng-template #context1Template>
+          <ul nz-menu nzInDropDown>
+            <nz-popconfirm (nzOnConfirm)="roleDel($event,node)" [nzTitle]="'确认删除此【角色】吗？'">
+              <a nz-popconfirm><li nz-menu-item>删除</li></a>
+            </nz-popconfirm>
+            <li nz-menu-item (click)="roleEdit(node)">添加子项</li>
+          </ul>
+        </ng-template>
+        <ng-template #context2Template>
+          <ul nz-menu nzInDropDown>
+            <li class="disabled" nz-menu-item>删除</li>
+            <li nz-menu-item (click)="roleEdit(node)">添加子项</li>
+          </ul>
+        </ng-template>
+        <ng-template #nzTreeTemplate let-node>
+          <span class="custom-node" [class.active]="activedNode?.key===node.key">
+            <span class="node-content" *ngIf="node.isLeaf" (contextmenu)="contextMenu(node,$event,context1Template)">
+              <span>{{node.title}}</span>
+            </span>
+            <span class="node-content" *ngIf="!node.isLeaf" (contextmenu)="contextMenu(node,$event,context2Template)">
+              <span>{{node.title}}</span>
+            </span>
+          </span>
+        </ng-template>
       </nz-tree>
-      <ng-template #contextTemplate>
-        <ul nz-menu nzInDropDown>
-          <li nz-menu-item (click)="roleDel($event)">删除</li>
-          <li nz-menu-item (click)="addChild($event)">添加子项</li>
-        </ul>
-      </ng-template>
     </nz-card>
     <ng-template #extraTemplate>
-      <button nz-button nzSize="small" nzType="default" (click)="openEdit($event)">添加</button>
+      <button nz-button nzSize="small" nzType="default" (click)="roleEdit()">添加</button>
     </ng-template>
   </div>
   <div nz-col nzMd="24" nzLg="17" [hidden]="!isShow">
     <nz-card [nzTitle]="title">
       <div nz-row nzGutter="24" style="margin-bottom: 8px;">
-        <form nz-form [formGroup]="validateForm" (ngSubmit)="save()" nzLayout="horizontal">
+        <form nz-form [formGroup]="validateForm" (ngSubmit)="save($event,validateForm.value)" nzLayout="horizontal">
           <nz-form-item>
             <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">角色名称</nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24">
@@ -34,14 +51,14 @@
               <nz-tree #aclTreeCom
               [nzData]="aclTree"
               nzCheckable="true"
-              nzMultiple="true"
-              (nzCheckBoxChange)="clickTreeName($event)">
+              nzCheckStrictly="true"
+              [nzCheckedKeys]="defaultCheckedKeys">
               </nz-tree>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item nz-row style="margin-bottom:8px;">
             <nz-form-control [nzSpan]="14" [nzOffset]="6">
-              <button nz-button nzType="primary">保存</button>
+              <button nz-button nzType="primary" [nzLoading]="isLoading">保存</button>
             </nz-form-control>
           </nz-form-item>
         </form>
